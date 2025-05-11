@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "File Share (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "File Share (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
