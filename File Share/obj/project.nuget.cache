@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JnmhDLvowc0=",
+  "dgSpecHash": "1RqOertVYNI=",
   "success": true,
   "projectFilePath": "D:\\coding\\projects\\File Share\\File Share\\File Share.csproj",
   "expectedPackageFiles": [
@@ -45,7 +45,6 @@
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\9.0.4\\microsoft.extensions.options.configurationextensions.9.0.4.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.4\\microsoft.extensions.primitives.9.0.4.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.net.http.headers\\2.3.0\\microsoft.net.http.headers.2.3.0.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.15\\microsoft.net.illink.tasks.8.0.15.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.1\\microsoft.netcore.platforms.1.1.1.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.web.webview2\\1.0.2903.40\\microsoft.web.webview2.1.0.2903.40.nupkg.sha512",

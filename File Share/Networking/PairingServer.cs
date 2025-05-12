@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using File_Share.Storing;
 using FileShare.Storing;
 
 namespace FileShare.Networking
@@ -24,13 +25,18 @@ namespace FileShare.Networking
         private readonly TcpListener _listener;
         private readonly CancellationTokenSource _cts = new();
         private readonly DeviceManager _deviceManager = new();
+        private readonly ServerInfoManager _serverInfoManager = new();
         public event Action<string>? DevicePaired;
         public PairingInfo Info { get; }
 
         public PairingServer()
         {
             string ip = GetLocalIpAddress();
-            int port = FindAvailablePort();
+            int port = _serverInfoManager.GetServerPort();
+            if (port == 0 || !IsPortAvailable(port))
+            {
+                port = FindAvailablePort();
+            }
             string token = Guid.NewGuid().ToString();
             string deviceName = Environment.MachineName;
 
@@ -41,6 +47,8 @@ namespace FileShare.Networking
                 Token = token,
                 DeviceName = deviceName
             };
+
+            _serverInfoManager.SaveServerInfo(Info);
 
             _listener = new TcpListener(IPAddress.Any, port);
             _ = StartListeningAsync(_cts.Token);
@@ -99,7 +107,17 @@ namespace FileShare.Networking
 
                         Debug.WriteLine($"Device paired: {deviceName} ({deviceId})");
                         await writer.WriteLineAsync("PAIRING_SUCCESS");
-                        DevicePaired?.Invoke(deviceName);
+                        string response = await reader.ReadLineAsync();
+                        if(response == "SEND_NAME")
+                        {
+                            await writer.WriteLineAsync(_serverInfoManager.GetServerName());
+                        }
+                        else
+                        {
+                            await writer.WriteLineAsync("PAIRING_FAILED");
+                            Debug.WriteLine($"Unexpected client response: {response}");
+                        }
+                            DevicePaired?.Invoke(deviceName);
                     }
                     else
                     {
@@ -134,6 +152,22 @@ namespace FileShare.Networking
             listener.Stop();
             return port;
         }
+
+        private bool IsPortAvailable(int port)
+        {
+            try
+            {
+                TcpListener testListener = new TcpListener(IPAddress.Any, port);
+                testListener.Start();
+                testListener.Stop();
+                return true;
+            }
+            catch (SocketException)
+            {
+                return false;
+            }
+        }
+
 
         public void Stop()
         {

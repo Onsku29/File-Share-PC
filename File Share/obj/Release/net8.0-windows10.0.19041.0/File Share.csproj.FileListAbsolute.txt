@@ -135,3 +135,4 @@ D:\coding\projects\File Share\File Share\obj\Release\net8.0-windows10.0.19041.0\
 D:\coding\projects\File Share\File Share\obj\Release\net8.0-windows10.0.19041.0\qualifiers.txt
 D:\coding\projects\File Share\File Share\obj\Release\net8.0-windows10.0.19041.0\qualifiers.txt.intermediate
 D:\coding\projects\File Share\File Share\obj\Release\net8.0-windows10.0.19041.0\MultipleQualifiersPerDimensionFound.txt
+D:\coding\projects\File Share\File Share\obj\Release\net8.0-windows10.0.19041.0\File Share.sourcelink.json

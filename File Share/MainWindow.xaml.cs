@@ -57,10 +57,12 @@ namespace File_Share
             if (IsColorTooLight(accentColor))
             {
                 addDevice.Foreground = new SolidColorBrush(Colors.Black);
+                cancelAdd.Foreground = new SolidColorBrush(Colors.Black);
             }
             else
             {
                 addDevice.Foreground = new SolidColorBrush(Colors.White);
+                cancelAdd.Foreground = new SolidColorBrush(Colors.White);
             }
         }
 
@@ -120,6 +122,7 @@ namespace File_Share
         {
             Overlay.Visibility = Visibility.Visible;
             LoadingRing.Visibility = Visibility.Visible;
+            cancelAdd.Visibility = Visibility.Visible;
             LoadingRing.IsActive = true;
             QRCodeImage.Source = null;
 
@@ -138,10 +141,28 @@ namespace File_Share
             LoadingRing.Visibility = Visibility.Collapsed;
         }
 
+        private void cancelAdd_Click(object sender, RoutedEventArgs e)
+        {
+            //KORJAA ANIMAATIO
+            var fadeOutStoryboard = (Storyboard)Application.Current.Resources["FadeOutOverlay"];
+            fadeOutStoryboard?.Stop();
+            Storyboard.SetTarget(fadeOutStoryboard.Children[0], Overlay);
+            fadeOutStoryboard.Begin();
+            Overlay.Visibility = Visibility.Collapsed;
+            QRCodeImage.Source = null;
+            LoadingRing.IsActive = false;
+            LoadingRing.Visibility = Visibility.Collapsed;
+        }
+
         private async void OnDevicePaired(string deviceName)
         {
             DispatcherQueue.TryEnqueue(() =>
             {
+                //KORJAA ANIMAATIO
+                var fadeOutStoryboard = (Storyboard)Application.Current.Resources["FadeOutOverlay"];
+                fadeOutStoryboard?.Stop();
+                Storyboard.SetTarget(fadeOutStoryboard.Children[0], Overlay);
+                fadeOutStoryboard.Begin();
                 Overlay.Visibility = Visibility.Collapsed;
                 QRCodeImage.Source = null;
                 LoadingRing.IsActive = false;

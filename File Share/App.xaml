@@ -14,6 +14,10 @@
                 <DoubleAnimation Storyboard.TargetProperty="Opacity"  
                     From="0" To="1" Duration="0:0:0.25" />
             </Storyboard>
+            <Storyboard x:Key="FadeOutOverlay">
+                <DoubleAnimation Storyboard.TargetProperty="Opacity"  
+                    From="1" To="0" Duration="0:0:0.25" />
+            </Storyboard>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
