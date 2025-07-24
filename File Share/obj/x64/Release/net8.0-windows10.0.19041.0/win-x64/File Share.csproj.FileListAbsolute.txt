@@ -259,7 +259,6 @@ D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.1904
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\hostfxr.dll
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\hostpolicy.dll
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\mscordaccore.dll
-D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\mscordaccore_amd64_amd64_8.0.1525.16413.dll
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\mscordbi.dll
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\mscorrc.dll
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\msquic.dll
@@ -538,3 +537,5 @@ D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.1904
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\Microsoft.Windows.Widgets.winmd
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\Microsoft.UI.pri
 D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\Microsoft.UI.Xaml.Controls.pri
+D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\mscordaccore_amd64_amd64_8.0.1725.26602.dll
+D:\coding\projects\File Share\File Share\bin\x64\Release\net8.0-windows10.0.19041.0\win-x64\System.Security.Cryptography.ProtectedData.dll

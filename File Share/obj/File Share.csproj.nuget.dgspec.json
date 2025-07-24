@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows10.0.19041": {
@@ -80,6 +80,10 @@
               "target": "Package",
               "version": "[4.3.4, )"
             },
+            "System.Security.Cryptography.ProtectedData": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
             "WinUIEx": {
               "target": "Package",
               "version": "[2.5.1, )"
@@ -114,19 +118,7 @@
               "version": "[8.0.17, 8.0.17]"
             },
             {
-              "name": "Microsoft.NETCore.App.Host.win-arm64",
-              "version": "[8.0.17, 8.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.17, 8.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x86",
-              "version": "[8.0.17, 8.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
+              "name": "Microsoft.NETCore.App.Crossgen2.win-x64",
               "version": "[8.0.17, 8.0.17]"
             },
             {
@@ -170,7 +162,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {

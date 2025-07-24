@@ -1,58 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<winuiex:WindowEx x:ConnectionId='1'  
-  xmlns:winuiex="using:WinUIEx"  
-  x:Class="File_Share.MainWindow"  
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+<winuiex:WindowEx x:ConnectionId='1'
+  xmlns:winuiex="using:WinUIEx"
+  x:Class="File_Share.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:local="using:File_Share"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
-  xmlns:tb="using:H.NotifyIcon"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:tb="using:H.NotifyIcon" xmlns:storing="using:FileShare.Storing"
   mc:Ignorable="d"  
-                              
+                            
   Title="File Share">
     
     <Grid>
-        <tb:TaskbarIcon x:ConnectionId='2'  
-          x:Name="TrayIcon"  
-          x:FieldModifier="public"  
-          ContextMenuMode="SecondWindow"  
-                                                             
-          NoLeftClickDelay="True"  
-          ToolTipText="ToolTip">
+        <tb:TaskbarIcon x:ConnectionId='2'
+          x:Name="TrayIcon"
+          x:FieldModifier="public"
+          ContextMenuMode="SecondWindow"
+                                                           
+          NoLeftClickDelay="True"
+          ToolTipText="File Share">
             <tb:TaskbarIcon.ContextFlyout>
                 <MenuFlyout AreOpenCloseAnimationsEnabled="False">
-                    <MenuFlyoutItem x:ConnectionId='10'  
-                                                                
+                    <MenuFlyoutItem x:ConnectionId='13'
+                                                              
                       Text="Show/Hide Window"/>
                     <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem x:ConnectionId='11'  
-                                                                 
-                      Text="Exit"/>
+                    <MenuFlyoutItem x:ConnectionId='14'
+                                                               
+                      Text="Close app"/>
                 </MenuFlyout>
             </tb:TaskbarIcon.ContextFlyout>
         </tb:TaskbarIcon>
 
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
-            <TextBlock FontSize="48">  
+            <TextBlock FontSize="48">
                 <Bold>Devices:</Bold>
             </TextBlock>
             <ListView x:ConnectionId='8' x:Name="DeviceList" Margin="0, 32, 0, 0">
                 <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock FontSize="24" Text="{Binding}"/>
+                    <DataTemplate                                  >
+                        <Grid x:ConnectionId='10'>
+                            <Grid.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:ConnectionId='11'                            Text="Remove Device"/>
+                                </MenuFlyout>
+                            </Grid.ContextFlyout>
+                            <TextBlock x:ConnectionId='12' FontSize="24"                           />
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
 
-        <Button x:ConnectionId='3' x:Name="addDevice"                         Content="+ Add Device" Background="#0099E0" FontSize="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="32" Padding="16" CornerRadius="16"/>
+        <Button x:ConnectionId='3' x:Name="addDevice"                         Content="+ Add Device" Background="#0099E0" Foreground="Black" FontSize="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="32" Padding="16" CornerRadius="16"/>
 
         <Border x:ConnectionId='4' x:Name="Overlay" Background="#80000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" Opacity="0">
             <Grid>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="32" Background="#ADE5FF" CornerRadius="16">
                     <TextBlock FontSize="32" Foreground="Black" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" MaxWidth="512">  
-                    Scan this QR code in the mobile app. Make sure both your phone and computer are connected to the same local network.
+                      Scan this QR code in the mobile app. Make sure both your phone and computer are connected to the same local network.
                     </TextBlock>
                     <Border CornerRadius="16" Margin="0, 32, 0, 0" Width="512" Height="512">
                         <Grid>
@@ -61,7 +68,7 @@
                         </Grid>
                     </Border>
                 </StackPanel>
-                <Button x:ConnectionId='5' x:Name="cancelAdd"                         Content="Cancel" Background="#0099E0" FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="32" Padding="16" CornerRadius="16"/>
+                <Button x:ConnectionId='5' x:Name="cancelAdd"                         Content="Cancel" Background="#0099E0" Foreground="Black" FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="32" Padding="16" CornerRadius="16"/>
             </Grid>
         </Border>
     </Grid>

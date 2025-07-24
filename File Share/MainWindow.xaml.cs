@@ -1,25 +1,17 @@
 using System;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using WinUIEx;
-using Microsoft.UI.Xaml.Media;
-using Windows.UI;
-using Microsoft.UI.Xaml.Input;
 using System.Threading.Tasks;
 using FileShare.Scripts;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.UI;
-using Windows.UI.ViewManagement;
 using System.Diagnostics;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
-using System.Text.Json;
 using FileShare.Networking;
 using System.Collections.Generic;
+using WinRT.Interop;
 using FileShare.Storing;
-using System.Linq;
 
 namespace File_Share
 {
@@ -27,8 +19,9 @@ namespace File_Share
     {
         private readonly PairingServer _server;
         private readonly PairingService _service;
-        private DeviceManager _deviceManager;
-        private readonly List<string> _pairedDevices = new();
+        private readonly DeviceManager _deviceManager;
+        private readonly AESKeyManager _AESKeyManager;
+        private readonly List<PairedDevice> _pairedDevices = new();
 
         public MainWindow()
         {
@@ -37,33 +30,21 @@ namespace File_Share
 
             Debug.WriteLine("Window created");
 
-            _server = new PairingServer();
-            _server.DevicePaired += OnDevicePaired;
+            _AESKeyManager = new AESKeyManager();
+            _deviceManager = new DeviceManager(_AESKeyManager);
+            _server = new PairingServer(_deviceManager, _AESKeyManager);
             _service = new PairingService(_server);
-            _deviceManager = new DeviceManager();
+            _deviceManager.DevicePaired += OnDevicePaired;
 
             var pairedDevicesJson = _deviceManager.GetAllPairedDevices();
 
             foreach (var device in pairedDevicesJson)
             {
-                _pairedDevices.Add(device.DeviceName);
+                _pairedDevices.Add(device);
             }
 
             DeviceList.ItemsSource = null;
             DeviceList.ItemsSource = _pairedDevices;
-
-            var uiSettings = new UISettings();
-            Color accentColor = uiSettings.GetColorValue(UIColorType.Accent);
-            if (IsColorTooLight(accentColor))
-            {
-                addDevice.Foreground = new SolidColorBrush(Colors.Black);
-                cancelAdd.Foreground = new SolidColorBrush(Colors.Black);
-            }
-            else
-            {
-                addDevice.Foreground = new SolidColorBrush(Colors.White);
-                cancelAdd.Foreground = new SolidColorBrush(Colors.White);
-            }
         }
 
         private void AppWindow_Closing(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowClosingEventArgs args)
@@ -110,14 +91,6 @@ namespace File_Share
             Debug.WriteLine("Window hidden");
         }
 
-        private bool IsColorTooLight(Color color)
-        {
-            double luminance = (0.2126 * color.R / 255.0) +
-                               (0.7152 * color.G / 255.0) +
-                               (0.0722 * color.B / 255.0);
-            return luminance > 0.25;
-        }
-
         private async void addDevice_Click(object sender, RoutedEventArgs e)
         {
             Overlay.Visibility = Visibility.Visible;
@@ -154,7 +127,49 @@ namespace File_Share
             LoadingRing.Visibility = Visibility.Collapsed;
         }
 
-        private async void OnDevicePaired(string deviceName)
+        private void removeDevice_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement menuItem && menuItem.DataContext is PairedDevice device)
+            {
+                _deviceManager.DeleteDevice(device);
+                _pairedDevices.Remove(device);
+                DeviceList.ItemsSource = null;
+                DeviceList.ItemsSource = _pairedDevices;
+            }
+            else
+            {
+                Debug.WriteLine("Could not determine which device to remove.");
+            }
+        }
+
+        private async void OnDevicePaired(PairedDevice device)
+        {
+            try
+            {
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    //KORJAA ANIMAATIO
+                    var fadeOutStoryboard = (Storyboard)Application.Current.Resources["FadeOutOverlay"];
+                    fadeOutStoryboard?.Stop();
+                    Storyboard.SetTarget(fadeOutStoryboard.Children[0], Overlay);
+                    fadeOutStoryboard.Begin();
+                    Overlay.Visibility = Visibility.Collapsed;
+                    QRCodeImage.Source = null;
+                    LoadingRing.IsActive = false;
+                    LoadingRing.Visibility = Visibility.Collapsed;
+
+                    _pairedDevices.Add(device);
+                    DeviceList.ItemsSource = null;
+                    DeviceList.ItemsSource = _pairedDevices;
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in OnDevicePaired: {ex.Message}");
+            }
+        }
+
+        private async void OnPairingFailed()
         {
             DispatcherQueue.TryEnqueue(() =>
             {
@@ -167,11 +182,36 @@ namespace File_Share
                 QRCodeImage.Source = null;
                 LoadingRing.IsActive = false;
                 LoadingRing.Visibility = Visibility.Collapsed;
-
-                _pairedDevices.Add(deviceName);
-                DeviceList.ItemsSource = null;
-                DeviceList.ItemsSource = _pairedDevices;
             });
+        }
+
+        public async Task<string?> RequestSavePathAsync(string suggestedFileName)
+        {
+            BringToForeground();
+            var picker = new Windows.Storage.Pickers.FileSavePicker();
+
+            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads;
+            picker.SuggestedFileName = suggestedFileName;
+            picker.FileTypeChoices.Add("All files", new List<string>() { "." });
+
+            var file = await picker.PickSaveFileAsync();
+            return file?.Path;
+        }
+
+        public void BringToForeground()
+        {
+            if (this.AppWindow != null)
+            {
+                this.AppWindow.Show();
+                this.Activate();
+            }
+            else
+            {
+                Debug.WriteLine("AppWindow is null, cannot bring to foreground.");
+            }
         }
     }
 }

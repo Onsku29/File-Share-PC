@@ -8,8 +8,8 @@ namespace File_Share
 {
     public partial class App : Application
     {
+        public static App Instance => (App)Current;
         public MainWindow mainWindow;
-
         public App()
         {
             Debug.WriteLine("App constructor called");
