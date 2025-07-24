@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.IO;
-using System.Threading.Tasks;
 using System.Diagnostics;
 
 namespace FileShare.Storing
@@ -14,17 +11,27 @@ namespace FileShare.Storing
         public string DeviceId { get; set; }
         public string DeviceName { get; set; }
         public string DeviceIp { get; set; }
+
+        public PairedDevice(string deviceId, string deviceName, string deviceIp)
+        {
+            DeviceId = deviceId;
+            DeviceName = deviceName;
+            DeviceIp = deviceIp;
+        }
     }
 
-    class DeviceManager
+    public class DeviceManager
     {
         private static readonly string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FileShare", "paired_devices.json");
         private List<PairedDevice> _pairedDevices;
+        public event Action<PairedDevice>? DevicePaired;
+        private AESKeyManager AESKeyManager;
 
-        public DeviceManager()
+        public DeviceManager(AESKeyManager AESKeyManager)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
             _pairedDevices = LoadDevices();
+            this.AESKeyManager = AESKeyManager;
         }
 
 
@@ -56,6 +63,8 @@ namespace FileShare.Storing
                 {
                     writer.Write(json);
                 }
+
+                AESKeyManager.SaveKeys();
             }
             catch (Exception ex)
             {
@@ -68,18 +77,29 @@ namespace FileShare.Storing
             return _pairedDevices.Exists(d => d.DeviceId == deviceId);
         }
 
-        public void AddDevice(string deviceId, string deviceName, string deviceIp)
+        public bool IsDevicePaired(PairedDevice device)
         {
-            if (!IsDevicePaired(deviceId))
-            {
-                _pairedDevices.Add(new PairedDevice
-                {
-                    DeviceId = deviceId,
-                    DeviceName = deviceName,
-                    DeviceIp = deviceIp
-                });
+            return _pairedDevices.Contains(device);
+        }
 
+        public void AddDevice(PairedDevice device)
+        {
+            _pairedDevices.Add(device);
+            DevicePaired?.Invoke(device);
+            AESKeyManager.AddKey(device);
+            SaveDevices();
+        }
+
+        public void DeleteDevice(PairedDevice device)
+        {
+            if (device != null)
+            {
+                Debug.WriteLine($"Deleting device: {device.DeviceName}");
+                _pairedDevices.Remove(device);
+                AESKeyManager.RemoveKey(device);
                 SaveDevices();
+                AESKeyManager.SaveKeys();
+                _pairedDevices = LoadDevices();
             }
         }
 

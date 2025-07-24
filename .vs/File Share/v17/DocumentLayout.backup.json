@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "D:\\coding\\projects\\File Share\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|d:\\coding\\projects\\file share\\file share\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|solutionrelative:file share\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|d:\\coding\\projects\\file share\\file share\\storing\\aeskeymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|solutionrelative:file share\\storing\\aeskeymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|d:\\coding\\projects\\file share\\file share\\networking\\pairingserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|solutionrelative:file share\\networking\\pairingserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|d:\\coding\\projects\\file share\\file share\\storing\\serverinfomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|solutionrelative:file share\\storing\\serverinfomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|d:\\coding\\projects\\file share\\file share\\storing\\devicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,6 +17,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|d:\\coding\\projects\\file share\\file share\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|solutionrelative:file share\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|d:\\coding\\projects\\file share\\file share\\storing\\filesharinghandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E5A5DC86-444D-47A1-808C-E922AF26569C}|File Share\\File Share.csproj|solutionrelative:file share\\storing\\filesharinghandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,19 +30,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ServerInfoManager.cs",
-              "DocumentMoniker": "D:\\coding\\projects\\File Share\\File Share\\Storing\\ServerInfoManager.cs",
-              "RelativeDocumentMoniker": "File Share\\Storing\\ServerInfoManager.cs",
-              "ToolTip": "D:\\coding\\projects\\File Share\\File Share\\Storing\\ServerInfoManager.cs",
-              "RelativeToolTip": "File Share\\Storing\\ServerInfoManager.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAIwGsAAAA9AAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "AESKeyManager.cs",
+              "DocumentMoniker": "D:\\coding\\projects\\File Share\\File Share\\Storing\\AESKeyManager.cs",
+              "RelativeDocumentMoniker": "File Share\\Storing\\AESKeyManager.cs",
+              "ToolTip": "D:\\coding\\projects\\File Share\\File Share\\Storing\\AESKeyManager.cs",
+              "RelativeToolTip": "File Share\\Storing\\AESKeyManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T14:41:50.124Z",
+              "WhenOpened": "2025-06-13T21:34:20.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DeviceManager.cs",
+              "DocumentMoniker": "D:\\coding\\projects\\File Share\\File Share\\Storing\\DeviceManager.cs",
+              "RelativeDocumentMoniker": "File Share\\Storing\\DeviceManager.cs",
+              "ToolTip": "D:\\coding\\projects\\File Share\\File Share\\Storing\\DeviceManager.cs",
+              "RelativeToolTip": "File Share\\Storing\\DeviceManager.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAuwFgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-13T21:32:59.811Z",
               "EditorCaption": ""
             },
             {
@@ -53,48 +66,35 @@
               "RelativeDocumentMoniker": "File Share\\Networking\\PairingServer.cs",
               "ToolTip": "D:\\coding\\projects\\File Share\\File Share\\Networking\\PairingServer.cs",
               "RelativeToolTip": "File Share\\Networking\\PairingServer.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAAwHgAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAACwAAAAAAAAAAAAuwH0AAABqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T14:41:06.471Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DeviceManager.cs",
-              "DocumentMoniker": "D:\\coding\\projects\\File Share\\File Share\\Storing\\DeviceManager.cs",
-              "RelativeDocumentMoniker": "File Share\\Storing\\DeviceManager.cs",
-              "ToolTip": "D:\\coding\\projects\\File Share\\File Share\\Storing\\DeviceManager.cs",
-              "RelativeToolTip": "File Share\\Storing\\DeviceManager.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAmwFIAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-10T14:40:45.045Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "D:\\coding\\projects\\File Share\\File Share\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "File Share\\MainWindow.xaml",
-              "ToolTip": "D:\\coding\\projects\\File Share\\File Share\\MainWindow.xaml",
-              "RelativeToolTip": "File Share\\MainWindow.xaml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAD8AAADDAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-12T14:18:26.453Z",
+              "WhenOpened": "2025-06-13T21:09:05.106Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "FileSharingHandler.cs",
+              "DocumentMoniker": "D:\\coding\\projects\\File Share\\File Share\\Storing\\FileSharingHandler.cs",
+              "RelativeDocumentMoniker": "File Share\\Storing\\FileSharingHandler.cs",
+              "ToolTip": "D:\\coding\\projects\\File Share\\File Share\\Storing\\FileSharingHandler.cs",
+              "RelativeToolTip": "File Share\\Storing\\FileSharingHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T21:52:39.43Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "D:\\coding\\projects\\File Share\\File Share\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "File Share\\MainWindow.xaml.cs",
               "ToolTip": "D:\\coding\\projects\\File Share\\File Share\\MainWindow.xaml.cs",
               "RelativeToolTip": "File Share\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAwwKAAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACMAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-10T16:12:02.493Z",
+              "WhenOpened": "2025-06-11T15:15:12.576Z",
               "EditorCaption": ""
             }
           ]

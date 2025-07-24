@@ -1,4 +1,6 @@
-﻿using System;
+﻿using File_Share;
+using FileShare.Storing;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -7,8 +9,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using File_Share.Storing;
-using FileShare.Storing;
 
 namespace FileShare.Networking
 {
@@ -24,20 +24,32 @@ namespace FileShare.Networking
     {
         private readonly TcpListener _listener;
         private readonly CancellationTokenSource _cts = new();
-        private readonly DeviceManager _deviceManager = new();
+        private readonly DeviceManager _deviceManager;
+        private readonly AESKeyManager _aesKeyManager;
         private readonly ServerInfoManager _serverInfoManager = new();
-        public event Action<string>? DevicePaired;
         public PairingInfo Info { get; }
 
-        public PairingServer()
+        public PairingServer(DeviceManager deviceManager, AESKeyManager aesKeyManager)
         {
+            _deviceManager = deviceManager;
+            _aesKeyManager = aesKeyManager;
             string ip = GetLocalIpAddress();
             int port = _serverInfoManager.GetServerPort();
             if (port == 0 || !IsPortAvailable(port))
             {
                 port = FindAvailablePort();
             }
-            string token = Guid.NewGuid().ToString();
+
+            string token = "";
+            if(_serverInfoManager.GetServerToken() != string.Empty)
+            {
+                token = _serverInfoManager.GetServerToken();
+            }
+            else
+            {
+                token = Guid.NewGuid().ToString();
+            }
+
             string deviceName = Environment.MachineName;
 
             Info = new PairingInfo
@@ -64,6 +76,8 @@ namespace FileShare.Networking
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     var client = await _listener.AcceptTcpClientAsync(cancellationToken);
+                    client.ReceiveBufferSize = 1024 * 1024;
+                    client.SendBufferSize = 1024 * 1024;
                     _ = HandleClientAsync(client, cancellationToken);
                 }
             }
@@ -73,51 +87,56 @@ namespace FileShare.Networking
             }
         }
 
-        private async Task HandleClientAsync(TcpClient client, CancellationToken cancellationToken)
+        private async Task HandlePairingAsync(StreamReader reader, StreamWriter writer, TcpClient client)
         {
-            using var stream = client.GetStream();
-            using var reader = new StreamReader(stream, Encoding.UTF8);
-            using var writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true };
+            await writer.WriteLineAsync("SEND_TOKEN");
+            string token = await reader.ReadLineAsync();
+            Debug.WriteLine($"Received pairing token: {token}");
 
-            try
+            if (token?.Trim() == Info.Token)
             {
-                string token = await reader.ReadLineAsync();
-                Debug.WriteLine($"Received pairing token: {token}");
+                await writer.WriteLineAsync("SEND_ID");
+                string deviceId = await reader.ReadLineAsync();
 
-                if (token?.Trim() == Info.Token)
+                if (_deviceManager.IsDevicePaired(deviceId))
                 {
-                    await writer.WriteLineAsync("SEND_ID");
-                    string deviceId = await reader.ReadLineAsync();
-                    Debug.WriteLine(deviceId);
+                    await writer.WriteLineAsync("ALREADY_PAIRED");
+                    Debug.WriteLine("Pairing rejected: Device already paired.");
+                    return;
+                }
 
-                    if (_deviceManager.IsDevicePaired(deviceId))
+                await writer.WriteLineAsync("SEND_NAME");
+                string deviceName = await reader.ReadLineAsync();
+
+                if (!string.IsNullOrWhiteSpace(deviceId) && !string.IsNullOrWhiteSpace(deviceName))
+                {
+                    string remoteIp = ((IPEndPoint)client.Client.RemoteEndPoint!).Address.ToString();
+
+                    Debug.WriteLine($"Device paired: {deviceName} ({deviceId})");
+                    await writer.WriteLineAsync("PAIRING_SUCCESS");
+                    string response = await reader.ReadLineAsync();
+                    if (response == "SEND_NAME")
                     {
-                        await writer.WriteLineAsync("ALREADY_PAIRED");
-                        Debug.WriteLine("Pairing rejected: Device already paired.");
-                        return;
-                    }
-
-                    await writer.WriteLineAsync("SEND_NAME");
-                    string deviceName = await reader.ReadLineAsync();
-
-                    if (!string.IsNullOrWhiteSpace(deviceId) && !string.IsNullOrWhiteSpace(deviceName))
-                    {
-                        string remoteIp = ((IPEndPoint)client.Client.RemoteEndPoint!).Address.ToString();
-                        _deviceManager.AddDevice(deviceId, deviceName, remoteIp);
-
-                        Debug.WriteLine($"Device paired: {deviceName} ({deviceId})");
-                        await writer.WriteLineAsync("PAIRING_SUCCESS");
-                        string response = await reader.ReadLineAsync();
-                        if(response == "SEND_NAME")
+                        await writer.WriteLineAsync(_serverInfoManager.GetServerName());
+                        response = await reader.ReadLineAsync();
+                        if (response == "PAIRING_SUCCESS")
                         {
-                            await writer.WriteLineAsync(_serverInfoManager.GetServerName());
+                            PairedDevice pairedDevice = new PairedDevice(deviceId, deviceName, remoteIp);
+                            _deviceManager.AddDevice(pairedDevice);
+                            await writer.WriteLineAsync(_aesKeyManager.GetKeyForDevice(pairedDevice).Key);
+
+                            Debug.WriteLine($"Device paired successfully: {deviceName} ({deviceId})");
                         }
+
+                        else if (response == "PAIRING_FAILED")
+                        {
+                            Debug.WriteLine($"Pairing failed for device: {deviceName} ({deviceId})");
+                        }
+
                         else
                         {
-                            await writer.WriteLineAsync("PAIRING_FAILED");
                             Debug.WriteLine($"Unexpected client response: {response}");
                         }
-                            DevicePaired?.Invoke(deviceName);
                     }
                     else
                     {
@@ -129,6 +148,55 @@ namespace FileShare.Networking
                 {
                     await writer.WriteLineAsync("INVALID_TOKEN");
                     Debug.WriteLine("Invalid pairing attempt.");
+                }
+            }
+        }
+
+
+        private async Task HandleClientAsync(TcpClient client, CancellationToken cancellationToken)
+        {
+            using var stream = client.GetStream();
+            using var reader = new StreamReader(stream, new UTF8Encoding(false));
+            using var writer = new StreamWriter(stream, new UTF8Encoding(false)) { AutoFlush = true };
+
+            try
+            {
+                string mode = await reader.ReadLineAsync();
+                if (string.IsNullOrWhiteSpace(mode))
+                {
+                    Debug.WriteLine("Client sent no initial mode.");
+                    return;
+                }
+                if (mode == "PAIR")
+                {
+                    await HandlePairingAsync(reader, writer, client);
+                }
+                else if (mode == "SHARE")
+                {
+                    var fileHandler = new FileSharingHandler();
+                    await fileHandler.HandleClientAsync(reader, writer, stream, async filename =>
+                    {
+                        var tcs = new TaskCompletionSource<string?>();
+
+                        App.Instance.mainWindow.DispatcherQueue.TryEnqueue(async () =>
+                        {
+                            try
+                            {
+                                var path = await App.Instance.mainWindow.RequestSavePathAsync(filename);
+                                tcs.SetResult(path);
+                            }
+                            catch (Exception ex)
+                            {
+                                tcs.SetException(ex);
+                            }
+                        });
+
+                        return await tcs.Task;
+                    });
+                }
+                else
+                {
+                    Debug.WriteLine($"Unknown mode received from client: {mode}");
                 }
             }
             catch (Exception ex)

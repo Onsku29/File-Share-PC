@@ -209,7 +209,6 @@ D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.
 D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\hostfxr.dll
 D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\hostpolicy.dll
 D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\mscordaccore.dll
-D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\mscordaccore_amd64_amd64_8.0.1525.16413.dll
 D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\mscordbi.dll
 D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\mscorrc.dll
 D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\msquic.dll
@@ -538,3 +537,4 @@ D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.
 D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Microsoft.UI.pri
 D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\Microsoft.UI.Xaml.Controls.pri
 D:\coding\projects\File Share\File Share\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\File Share.sourcelink.json
+D:\coding\projects\File Share\File Share\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\mscordaccore_amd64_amd64_8.0.1725.26602.dll

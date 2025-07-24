@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1RqOertVYNI=",
+  "dgSpecHash": "PiYD0CO/5Xg=",
   "success": true,
   "projectFilePath": "D:\\coding\\projects\\File Share\\File Share\\File Share.csproj",
   "expectedPackageFiles": [
@@ -122,6 +122,7 @@
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.security.cryptography.encoding\\4.3.0\\system.security.cryptography.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.security.cryptography.openssl\\4.3.0\\system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.security.cryptography.primitives\\4.3.0\\system.security.cryptography.primitives.4.3.0.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.6\\system.security.cryptography.protecteddata.9.0.6.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.security.cryptography.x509certificates\\4.3.0\\system.security.cryptography.x509certificates.4.3.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.text.encoding.extensions\\4.3.0\\system.text.encoding.extensions.4.3.0.nupkg.sha512",
@@ -131,17 +132,17 @@
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.threading.overlapped\\4.3.0\\system.threading.overlapped.4.3.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\winuiex\\2.5.1\\winuiex.2.5.1.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\8.0.15\\microsoft.netcore.app.runtime.win-x86.8.0.15.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\8.0.15\\microsoft.netcore.app.crossgen2.win-x64.8.0.15.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\8.0.17\\microsoft.netcore.app.runtime.win-x86.8.0.17.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\8.0.17\\microsoft.netcore.app.crossgen2.win-x64.8.0.17.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.57\\microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\8.0.15\\microsoft.aspnetcore.app.runtime.win-x86.8.0.15.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.runtime.win-arm64\\8.0.15\\microsoft.netcore.app.runtime.win-arm64.8.0.15.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.15\\microsoft.aspnetcore.app.runtime.win-x64.8.0.15.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-arm64\\8.0.15\\microsoft.windowsdesktop.app.runtime.win-arm64.8.0.15.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.15\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.15.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-arm64\\8.0.15\\microsoft.aspnetcore.app.runtime.win-arm64.8.0.15.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.15\\microsoft.netcore.app.runtime.win-x64.8.0.15.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\8.0.15\\microsoft.windowsdesktop.app.runtime.win-x86.8.0.15.nupkg.sha512"
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\8.0.17\\microsoft.aspnetcore.app.runtime.win-x86.8.0.17.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.runtime.win-arm64\\8.0.17\\microsoft.netcore.app.runtime.win-arm64.8.0.17.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.17\\microsoft.aspnetcore.app.runtime.win-x64.8.0.17.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-arm64\\8.0.17\\microsoft.windowsdesktop.app.runtime.win-arm64.8.0.17.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.17\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.17.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-arm64\\8.0.17\\microsoft.aspnetcore.app.runtime.win-arm64.8.0.17.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.17\\microsoft.netcore.app.runtime.win-x64.8.0.17.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\8.0.17\\microsoft.windowsdesktop.app.runtime.win-x86.8.0.17.nupkg.sha512"
   ],
   "logs": []
 }
