@@ -13,12 +13,13 @@
   Title="File Share">
     
     <Grid>
-        <tb:TaskbarIcon  
-          x:Name="TrayIcon"  
-          x:FieldModifier="public"  
-          ContextMenuMode="SecondWindow"  
-          LeftClickCommand="{x:Bind ShowHideWindowCommand}"  
-          NoLeftClickDelay="True"  
+        <tb:TaskbarIcon
+          x:Name="TrayIcon"
+          x:FieldModifier="public"
+          IconSource="Assets/icon.ico"
+          ContextMenuMode="SecondWindow"
+          LeftClickCommand="{x:Bind ShowHideWindowCommand}"
+          NoLeftClickDelay="True"
           ToolTipText="ToolTip">
             <tb:TaskbarIcon.ContextFlyout>
                 <MenuFlyout AreOpenCloseAnimationsEnabled="False">
