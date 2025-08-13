@@ -16,10 +16,11 @@
         <tb:TaskbarIcon
           x:Name="TrayIcon"
           x:FieldModifier="public"
+          IconSource="Assets/icon.ico"
           ContextMenuMode="SecondWindow"
           LeftClickCommand="{x:Bind ShowHideWindowCommand}"
           NoLeftClickDelay="True"
-          ToolTipText="File Share">
+          ToolTipText="ToolTip">
             <tb:TaskbarIcon.ContextFlyout>
                 <MenuFlyout AreOpenCloseAnimationsEnabled="False">
                     <MenuFlyoutItem

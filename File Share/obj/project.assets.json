@@ -13430,31 +13430,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\or6593\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\coding\\projects\\File Share\\File Share\\File Share.csproj",
+      "projectUniqueName": "C:\\Users\\or6593\\Documents\\Repos\\File-Share\\File Share\\File Share.csproj",
       "projectName": "File Share",
-      "projectPath": "D:\\coding\\projects\\File Share\\File Share\\File Share.csproj",
-      "packagesPath": "C:\\Users\\Onni Ruohola\\.nuget\\packages\\",
-      "outputPath": "D:\\coding\\projects\\File Share\\File Share\\obj\\",
+      "projectPath": "C:\\Users\\or6593\\Documents\\Repos\\File-Share\\File Share\\File Share.csproj",
+      "packagesPath": "C:\\Users\\or6593\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\or6593\\Documents\\Repos\\File-Share\\File Share\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Onni Ruohola\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\or6593\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0-windows10.0.19041.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -13537,6 +13530,10 @@
         "warn": true,
         "downloadDependencies": [
           {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.17, 8.0.17]"
+          },
+          {
             "name": "Microsoft.AspNetCore.App.Runtime.win-arm64",
             "version": "[8.0.18, 8.0.18]"
           },
@@ -13567,6 +13564,10 @@
           {
             "name": "Microsoft.Windows.SDK.NET.Ref",
             "version": "[10.0.19041.57, 10.0.19041.57]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.17, 8.0.17]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-arm64",
