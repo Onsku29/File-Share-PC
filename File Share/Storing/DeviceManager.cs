@@ -25,13 +25,11 @@ namespace FileShare.Storing
         private static readonly string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FileShare", "paired_devices.json");
         private List<PairedDevice> _pairedDevices;
         public event Action<PairedDevice>? DevicePaired;
-        private AESKeyManager AESKeyManager;
 
-        public DeviceManager(AESKeyManager AESKeyManager)
+        public DeviceManager()
         {
             Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
             _pairedDevices = LoadDevices();
-            this.AESKeyManager = AESKeyManager;
         }
 
 
@@ -63,8 +61,6 @@ namespace FileShare.Storing
                 {
                     writer.Write(json);
                 }
-
-                AESKeyManager.SaveKeys();
             }
             catch (Exception ex)
             {
@@ -86,7 +82,6 @@ namespace FileShare.Storing
         {
             _pairedDevices.Add(device);
             DevicePaired?.Invoke(device);
-            AESKeyManager.AddKey(device);
             SaveDevices();
         }
 
@@ -96,9 +91,7 @@ namespace FileShare.Storing
             {
                 Debug.WriteLine($"Deleting device: {device.DeviceName}");
                 _pairedDevices.Remove(device);
-                AESKeyManager.RemoveKey(device);
                 SaveDevices();
-                AESKeyManager.SaveKeys();
                 _pairedDevices = LoadDevices();
             }
         }

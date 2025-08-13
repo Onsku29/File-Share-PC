@@ -20,7 +20,6 @@ namespace File_Share
         private readonly PairingServer _server;
         private readonly PairingService _service;
         private readonly DeviceManager _deviceManager;
-        private readonly AESKeyManager _AESKeyManager;
         private readonly List<PairedDevice> _pairedDevices = new();
 
         public MainWindow()
@@ -30,9 +29,8 @@ namespace File_Share
 
             Debug.WriteLine("Window created");
 
-            _AESKeyManager = new AESKeyManager();
-            _deviceManager = new DeviceManager(_AESKeyManager);
-            _server = new PairingServer(_deviceManager, _AESKeyManager);
+            _deviceManager = new DeviceManager();
+            _server = new PairingServer(_deviceManager);
             _service = new PairingService(_server);
             _deviceManager.DevicePaired += OnDevicePaired;
 

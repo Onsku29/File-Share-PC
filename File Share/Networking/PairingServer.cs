@@ -25,14 +25,12 @@ namespace FileShare.Networking
         private readonly TcpListener _listener;
         private readonly CancellationTokenSource _cts = new();
         private readonly DeviceManager _deviceManager;
-        private readonly AESKeyManager _aesKeyManager;
         private readonly ServerInfoManager _serverInfoManager = new();
         public PairingInfo Info { get; }
 
-        public PairingServer(DeviceManager deviceManager, AESKeyManager aesKeyManager)
+        public PairingServer(DeviceManager deviceManager)
         {
             _deviceManager = deviceManager;
-            _aesKeyManager = aesKeyManager;
             string ip = GetLocalIpAddress();
             int port = _serverInfoManager.GetServerPort();
             if (port == 0 || !IsPortAvailable(port))
@@ -87,70 +85,71 @@ namespace FileShare.Networking
             }
         }
 
+        private record PairingRequest(string token, string deviceId, string deviceName);
+        private record PairingResponse(string status, string? serverName = null, string? reason = null);
+
         private async Task HandlePairingAsync(StreamReader reader, StreamWriter writer, TcpClient client)
         {
-            await writer.WriteLineAsync("SEND_TOKEN");
-            string token = await reader.ReadLineAsync();
-            Debug.WriteLine($"Received pairing token: {token}");
-
-            if (token?.Trim() == Info.Token)
+            string? jsonRequest = await reader.ReadLineAsync();
+            if (string.IsNullOrWhiteSpace(jsonRequest))
             {
-                await writer.WriteLineAsync("SEND_ID");
-                string deviceId = await reader.ReadLineAsync();
-
-                if (_deviceManager.IsDevicePaired(deviceId))
-                {
-                    await writer.WriteLineAsync("ALREADY_PAIRED");
-                    Debug.WriteLine("Pairing rejected: Device already paired.");
-                    return;
-                }
-
-                await writer.WriteLineAsync("SEND_NAME");
-                string deviceName = await reader.ReadLineAsync();
-
-                if (!string.IsNullOrWhiteSpace(deviceId) && !string.IsNullOrWhiteSpace(deviceName))
-                {
-                    string remoteIp = ((IPEndPoint)client.Client.RemoteEndPoint!).Address.ToString();
-
-                    Debug.WriteLine($"Device paired: {deviceName} ({deviceId})");
-                    await writer.WriteLineAsync("PAIRING_SUCCESS");
-                    string response = await reader.ReadLineAsync();
-                    if (response == "SEND_NAME")
-                    {
-                        await writer.WriteLineAsync(_serverInfoManager.GetServerName());
-                        response = await reader.ReadLineAsync();
-                        if (response == "PAIRING_SUCCESS")
-                        {
-                            PairedDevice pairedDevice = new PairedDevice(deviceId, deviceName, remoteIp);
-                            _deviceManager.AddDevice(pairedDevice);
-                            await writer.WriteLineAsync(_aesKeyManager.GetKeyForDevice(pairedDevice).Key);
-
-                            Debug.WriteLine($"Device paired successfully: {deviceName} ({deviceId})");
-                        }
-
-                        else if (response == "PAIRING_FAILED")
-                        {
-                            Debug.WriteLine($"Pairing failed for device: {deviceName} ({deviceId})");
-                        }
-
-                        else
-                        {
-                            Debug.WriteLine($"Unexpected client response: {response}");
-                        }
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Device name missing.");
-                        await writer.WriteLineAsync("PAIRING_FAILED");
-                    }
-                }
-                else
-                {
-                    await writer.WriteLineAsync("INVALID_TOKEN");
-                    Debug.WriteLine("Invalid pairing attempt.");
-                }
+                await SendResponseAsync(writer, "failed", reason: "Empty request");
+                Debug.WriteLine("Pairing failed: empty request");
+                return;
             }
+
+            PairingRequest? request;
+            try
+            {
+                request = JsonSerializer.Deserialize<PairingRequest>(jsonRequest);
+            }
+            catch (JsonException)
+            {
+                await SendResponseAsync(writer, "failed", reason: "Malformed JSON");
+                Debug.WriteLine("Pairing failed: malformed JSON");
+                return;
+            }
+
+            if (request == null
+                || string.IsNullOrWhiteSpace(request.token)
+                || string.IsNullOrWhiteSpace(request.deviceId)
+                || string.IsNullOrWhiteSpace(request.deviceName))
+            {
+                await SendResponseAsync(writer, "failed", reason: "Missing fields");
+                Debug.WriteLine("Pairing failed: missing fields");
+                return;
+            }
+
+            if (request.token != Info.Token)
+            {
+                await SendResponseAsync(writer, "failed", reason: "Invalid token");
+                Debug.WriteLine("Pairing failed: invalid token");
+                return;
+            }
+
+            if (_deviceManager.IsDevicePaired(request.deviceId))
+            {
+                await SendResponseAsync(writer, "failed", reason: "Device already paired");
+                Debug.WriteLine($"Pairing rejected: device already paired ({request.deviceId})");
+                return;
+            }
+
+            // Save device
+            string remoteIp = ((IPEndPoint)client.Client.RemoteEndPoint!).Address.ToString();
+            var pairedDevice = new PairedDevice(request.deviceId, request.deviceName, remoteIp);
+            _deviceManager.AddDevice(pairedDevice);
+
+            await SendResponseAsync(writer, "success", serverName: _serverInfoManager.GetServerName());
+            Debug.WriteLine($"Device paired successfully: {request.deviceName} ({request.deviceId})");
         }
+
+        private static async Task SendResponseAsync(StreamWriter writer, string status, string? serverName = null, string? reason = null)
+        {
+            var response = new PairingResponse(status, serverName, reason);
+            string jsonResponse = JsonSerializer.Serialize(response);
+            await writer.WriteLineAsync(jsonResponse);
+        }
+
 
 
         private async Task HandleClientAsync(TcpClient client, CancellationToken cancellationToken)
