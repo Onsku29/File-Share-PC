@@ -25,9 +25,29 @@ namespace File_Share
         public MainWindow()
         {
             InitializeComponent();
-            this.AppWindow.Closing += AppWindow_Closing;
+            SizeChanged += MainWindow_SizeChanged;
+            AppWindow.Closing += AppWindow_Closing;
 
             Debug.WriteLine("Window created");
+
+            // Try to read AppWindow size, fall back to defaults if not available yet
+            double windowWidth = 1280;
+            double windowHeight = 720;
+
+            if (AppWindow != null)
+            {
+                var size = AppWindow.Size;
+                if (size.Width > 0 && size.Height > 0)
+                {
+                    windowWidth = size.Width;
+                    windowHeight = size.Height;
+                }
+            }
+
+            Debug.WriteLine("Window dimensions: " + windowWidth + " x " + windowHeight);
+
+            double maxDimension = Math.Min(windowWidth, windowHeight) * 0.50;
+            OverlayViewbox.MaxHeight = maxDimension * 1.2;
 
             _deviceManager = new DeviceManager();
             _server = new PairingServer(_deviceManager);
@@ -43,6 +63,17 @@ namespace File_Share
 
             DeviceList.ItemsSource = null;
             DeviceList.ItemsSource = _pairedDevices;
+        }
+
+        private void MainWindow_SizeChanged(object sender, WindowSizeChangedEventArgs args)
+        {
+            double windowWidth = args.Size.Width;
+            double windowHeight = args.Size.Height;
+
+            Debug.WriteLine("Window resized, dimensions: " + windowWidth + " x " + windowHeight);
+
+            double maxDimension = Math.Min(windowWidth, windowHeight) * 0.50;
+            OverlayViewbox.MaxHeight = maxDimension * 1.2;
         }
 
         private void AppWindow_Closing(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowClosingEventArgs args)

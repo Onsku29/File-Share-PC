@@ -11,7 +11,6 @@
   mc:Ignorable="d"  
   Closed="MainWindow_Closed"
   Title="File Share">
-    
     <Grid>
         <tb:TaskbarIcon
           x:Name="TrayIcon"
@@ -33,9 +32,8 @@
                 </MenuFlyout>
             </tb:TaskbarIcon.ContextFlyout>
         </tb:TaskbarIcon>
-
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32">
-            <TextBlock FontSize="48">
+            <TextBlock Style="{StaticResource HeaderTextBlockStyle}">
                 <Bold>Devices:</Bold>
             </TextBlock>
             <ListView x:Name="DeviceList" Margin="0, 32, 0, 0">
@@ -47,28 +45,28 @@
                                     <MenuFlyoutItem Click="removeDevice_Click" Text="Remove Device"/>
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
-                            <TextBlock FontSize="24" Text="{x:Bind DeviceName}"/>
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{x:Bind DeviceName}"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
-
-        <Button x:Name="addDevice" Click="addDevice_Click" Content="+ Add Device" Background="#0099E0" Foreground="Black" FontSize="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="32" Padding="16" CornerRadius="16"/>
-
+        <Button x:Name="addDevice" Click="addDevice_Click" Content="+ Add Device" Background="#0099E0" Foreground="Black" FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="32" Padding="16" CornerRadius="16"/>
         <Border x:Name="Overlay" Background="#80000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" Opacity="0">
             <Grid>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="32" Background="#ADE5FF" CornerRadius="16">
-                    <TextBlock FontSize="32" Foreground="Black" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" MaxWidth="512">  
-                      Scan this QR code in the mobile app. Make sure both your phone and computer are connected to the same local network.
-                    </TextBlock>
-                    <Border CornerRadius="16" Margin="0, 32, 0, 0" Width="512" Height="512">
-                        <Grid>
-                            <Image x:Name="QRCodeImage" Stretch="Uniform" Width="512" Height="512"/>
-                            <ProgressRing x:Name="LoadingRing" Width="128" Height="128" HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="False" Visibility="Collapsed" Foreground="Black"/>
-                        </Grid>
-                    </Border>
-                </StackPanel>
+                <Viewbox x:Name="OverlayViewbox" Stretch="Uniform" MaxHeight="720">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="32" Background="#ADE5FF" CornerRadius="16">
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Foreground="Black" HorizontalAlignment="Center" TextWrapping="WrapWholeWords" MaxWidth="512">  
+                              Scan this QR code in the mobile app. Make sure both your phone and computer are connected to the same local network.
+                        </TextBlock>
+                        <Border CornerRadius="16" Margin="0, 32, 0, 0" Width="512" Height="512">
+                            <Grid>
+                                <Image x:Name="QRCodeImage" Stretch="Uniform" Width="512" Height="512"/>
+                                <ProgressRing x:Name="LoadingRing" Width="128" Height="128" HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="False" Visibility="Collapsed" Foreground="Black"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Viewbox>
                 <Button x:Name="cancelAdd" Click="cancelAdd_Click" Content="Cancel" Background="#0099E0" Foreground="Black" FontSize="32" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="32" Padding="16" CornerRadius="16"/>
             </Grid>
         </Border>

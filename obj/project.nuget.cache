@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UsuwmQXCX+Y=",
+  "dgSpecHash": "n6V+3233ybo=",
   "success": true,
-  "projectFilePath": "D:\\coding\\repos\\File-Share-PC\\File Share\\File Share.csproj",
+  "projectFilePath": "D:\\coding\\File-Share-PC\\File Share.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.0\\communitytoolkit.mvvm.8.4.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\h.generatedicons.system.drawing\\2.3.0\\h.generatedicons.system.drawing.2.3.0.nupkg.sha512",
@@ -132,11 +132,11 @@
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.threading.overlapped\\4.3.0\\system.threading.overlapped.4.3.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\winuiex\\2.5.1\\winuiex.2.5.1.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\8.0.19\\microsoft.netcore.app.crossgen2.win-x64.8.0.19.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\8.0.25\\microsoft.netcore.app.crossgen2.win-x64.8.0.25.nupkg.sha512",
     "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.57\\microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.19\\microsoft.aspnetcore.app.runtime.win-x64.8.0.19.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.19\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.19.nupkg.sha512",
-    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.19\\microsoft.netcore.app.runtime.win-x64.8.0.19.nupkg.sha512"
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.25\\microsoft.aspnetcore.app.runtime.win-x64.8.0.25.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.25\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.25.nupkg.sha512",
+    "C:\\Users\\Onni Ruohola\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.25\\microsoft.netcore.app.runtime.win-x64.8.0.25.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,8 +1,8 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System;
+using System.Linq;
+using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using System;
 using System.Diagnostics;
-using WinUIEx;
 
 namespace File_Share
 {
@@ -16,8 +16,20 @@ namespace File_Share
             InitializeComponent();
 
             var appInstance = AppInstance.GetCurrent();
+
+            var args = Environment.GetCommandLineArgs();
+            bool startInBackground = args.Any(a => string.Equals(a, "--background", StringComparison.OrdinalIgnoreCase));
+
             mainWindow = new MainWindow();
-            mainWindow.Activate();
+
+            if (!startInBackground)
+            {
+                mainWindow.Activate();
+            }
+            else
+            {
+                Debug.WriteLine("Starting in background");
+            }
         }
     }
 }
