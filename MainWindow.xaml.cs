@@ -219,23 +219,28 @@ namespace File_Share
             BringToForeground();
             var picker = new Windows.Storage.Pickers.FileSavePicker();
 
-            var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-            WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
+            var hwnd = WindowNative.GetWindowHandle(this);
+            InitializeWithWindow.Initialize(picker, hwnd);
 
             picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads;
-            picker.SuggestedFileName = suggestedFileName;
             picker.FileTypeChoices.Add("All files", new List<string>() { "." });
+            picker.SuggestedFileName = suggestedFileName;
+            if (suggestedFileName.Contains('.'))
+            {
+                picker.DefaultFileExtension = Path.GetExtension(suggestedFileName);
+            }
 
             var file = await picker.PickSaveFileAsync();
-            return file?.Path;
+            if (file == null) return null;
+            return file.Path;
         }
 
         public void BringToForeground()
         {
-            if (this.AppWindow != null)
+            if (AppWindow != null)
             {
-                this.AppWindow.Show();
-                this.Activate();
+                AppWindow.Show();
+                Activate();
             }
             else
             {

@@ -2,14 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FileShare.Storing
 {
     public class FileSharingHandler
     {
-        public async Task HandleClientAsync(StreamReader reader, StreamWriter writer, NetworkStream stream, Func<string, Task<string?>> requestSavePathAsync)
+        public async Task HandleClientAsync(StreamReader reader, StreamWriter writer, NetworkStream networkStream, Func<string, Task<string?>> requestSavePathAsync)
         {
             await writer.WriteLineAsync("READY_FOR_FILE");
 
@@ -36,8 +35,8 @@ namespace FileShare.Storing
 
             await writer.WriteLineAsync("READY_TO_RECEIVE_FILE");
 
-            using var bufferedStream = new BufferedStream(stream, 65536);
-            using var fs = new FileStream(savePath, FileMode.Create, FileAccess.Write, System.IO.FileShare.None, 65536, true);
+            using var bufferedStream = new BufferedStream(networkStream, 65536);
+            using var fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write, System.IO.FileShare.None, 65536, true);
 
             byte[] buffer = new byte[65536];
             long remaining = fileSize;
@@ -48,13 +47,13 @@ namespace FileShare.Storing
                 int bytesRead = await bufferedStream.ReadAsync(buffer.AsMemory(0, bytesToRead));
                 if (bytesRead == 0) break;
 
-                await fs.WriteAsync(buffer.AsMemory(0, bytesRead));
+                await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead));
                 remaining -= bytesRead;
 
                 Debug.WriteLine($"Bytes read: {bytesRead}, Remaining: {remaining}");
             }
-            await fs.FlushAsync();
-            await stream.FlushAsync();
+            await fileStream.FlushAsync();
+            await networkStream.FlushAsync();
 
             Debug.WriteLine($"File {fileName} received and saved to {savePath}");
 

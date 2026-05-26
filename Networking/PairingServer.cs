@@ -235,7 +235,6 @@ namespace FileShare.Networking
             }
         }
 
-
         public void Stop()
         {
             _cts.Cancel();
