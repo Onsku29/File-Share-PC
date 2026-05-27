@@ -54,7 +54,7 @@ namespace File_Share
             _service = new PairingService(_server);
             _deviceManager.DevicePaired += OnDevicePaired;
 
-            var pairedDevicesJson = _deviceManager.GetAllPairedDevices();
+            var pairedDevicesJson = _deviceManager.GetPairedDevices();
 
             foreach (var device in pairedDevicesJson)
             {
@@ -108,14 +108,11 @@ namespace File_Share
         {
             var app = (App)Application.Current;
             var window = app.mainWindow;
-            if (window != null)
-            {
-                window.Close();
-            }
+            window?.Close();
             TrayIcon.Dispose();
         }
 
-        private void MainWindow_Closed(Object sender, WindowEventArgs args)
+        private void MainWindow_Closed(object sender, WindowEventArgs args)
         {
             Debug.WriteLine("Window hidden");
         }

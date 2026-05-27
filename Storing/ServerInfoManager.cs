@@ -1,26 +1,22 @@
 ﻿using FileShare.Networking;
-using FileShare.Storing;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace FileShare.Storing
 {
     class ServerInfoManager
     {
         private static readonly string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FileShare", "server_info.json");
+        private static readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
         public ServerInfoManager()
         {
             Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
         }
 
-        public string GetServerToken()
+        public static string GetServerToken()
         {
             try
             {
@@ -92,16 +88,14 @@ namespace FileShare.Storing
             return string.Empty;
         }
 
-        public void SaveServerInfo(PairingInfo info)
+        public static void SaveServerInfo(PairingInfo info)
         {
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
-                string json = JsonSerializer.Serialize(info, new JsonSerializerOptions { WriteIndented = true });
-                using (StreamWriter writer = File.CreateText(FilePath))
-                {
-                    writer.Write(json);
-                }
+                string json = JsonSerializer.Serialize(info, jsonSerializerOptions);
+                using StreamWriter writer = File.CreateText(FilePath);
+                writer.Write(json);
             }
             catch (Exception ex)
             {

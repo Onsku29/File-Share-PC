@@ -14,10 +14,10 @@ namespace FileShare.Networking
 {
     public class PairingInfo
     {
-        public string Ip { get; set; }
+        public required string Ip { get; set; }
         public int Port { get; set; }
-        public string Token { get; set; }
-        public string DeviceName { get; set; }
+        public required string Token { get; set; }
+        public required string DeviceName { get; set; }
     }
 
     public class PairingServer
@@ -26,7 +26,7 @@ namespace FileShare.Networking
         private readonly CancellationTokenSource _cts = new();
         private readonly DeviceManager _deviceManager;
         private readonly ServerInfoManager _serverInfoManager = new();
-        public PairingInfo Info { get; }
+        public PairingInfo info { get; }
 
         public PairingServer(DeviceManager deviceManager)
         {
@@ -38,19 +38,15 @@ namespace FileShare.Networking
                 port = FindAvailablePort();
             }
 
-            string token = "";
-            if(_serverInfoManager.GetServerToken() != string.Empty)
-            {
-                token = _serverInfoManager.GetServerToken();
-            }
-            else
+            string token = ServerInfoManager.GetServerToken();
+            if (token == string.Empty)
             {
                 token = Guid.NewGuid().ToString();
             }
 
             string deviceName = Environment.MachineName;
 
-            Info = new PairingInfo
+            info = new PairingInfo
             {
                 Ip = ip,
                 Port = port,
@@ -58,7 +54,7 @@ namespace FileShare.Networking
                 DeviceName = deviceName
             };
 
-            _serverInfoManager.SaveServerInfo(Info);
+            ServerInfoManager.SaveServerInfo(info);
 
             _listener = new TcpListener(IPAddress.Any, port);
             _ = StartListeningAsync(_cts.Token);
@@ -66,10 +62,11 @@ namespace FileShare.Networking
 
         private async Task StartListeningAsync(CancellationToken cancellationToken)
         {
+            // Start pairing server
             try
             {
                 _listener.Start();
-                Debug.WriteLine($"Pairing server started on {Info.Ip}:{Info.Port}");
+                Debug.WriteLine($"Pairing server started on {info.Ip}:{info.Port}");
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
@@ -91,6 +88,8 @@ namespace FileShare.Networking
         private async Task HandlePairingAsync(StreamReader reader, StreamWriter writer, TcpClient client)
         {
             string? jsonRequest = await reader.ReadLineAsync();
+
+            // Check if request is empty
             if (string.IsNullOrWhiteSpace(jsonRequest))
             {
                 await SendResponseAsync(writer, "failed", reason: "Empty request");
@@ -99,6 +98,8 @@ namespace FileShare.Networking
             }
 
             PairingRequest? request;
+
+            // Check if request JSON content is valid
             try
             {
                 request = JsonSerializer.Deserialize<PairingRequest>(jsonRequest);
@@ -110,6 +111,7 @@ namespace FileShare.Networking
                 return;
             }
 
+            // Check if request has missing fields
             if (request == null
                 || string.IsNullOrWhiteSpace(request.token)
                 || string.IsNullOrWhiteSpace(request.deviceId)
@@ -120,13 +122,15 @@ namespace FileShare.Networking
                 return;
             }
 
-            if (request.token != Info.Token)
+            // Check if request has invalid token
+            if (request.token != info.Token)
             {
                 await SendResponseAsync(writer, "failed", reason: "Invalid token");
                 Debug.WriteLine("Pairing failed: invalid token");
                 return;
             }
 
+            // Check if device is already paired
             if (_deviceManager.IsDevicePaired(request.deviceId))
             {
                 await SendResponseAsync(writer, "failed", reason: "Device already paired");

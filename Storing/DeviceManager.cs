@@ -6,23 +6,17 @@ using System.Diagnostics;
 
 namespace FileShare.Storing
 {
-    public class PairedDevice
+    public class PairedDevice(string deviceId, string deviceName, string deviceIp)
     {
-        public string DeviceId { get; set; }
-        public string DeviceName { get; set; }
-        public string DeviceIp { get; set; }
-
-        public PairedDevice(string deviceId, string deviceName, string deviceIp)
-        {
-            DeviceId = deviceId;
-            DeviceName = deviceName;
-            DeviceIp = deviceIp;
-        }
+        public string DeviceId { get; set; } = deviceId;
+        public string DeviceName { get; set; } = deviceName;
+        public string DeviceIp { get; set; } = deviceIp;
     }
 
     public class DeviceManager
     {
         private static readonly string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FileShare", "paired_devices.json");
+        private static readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
         private List<PairedDevice> _pairedDevices;
         public event Action<PairedDevice>? DevicePaired;
 
@@ -33,14 +27,14 @@ namespace FileShare.Storing
         }
 
 
-        private List<PairedDevice> LoadDevices()
+        private static List<PairedDevice> LoadDevices()
         {
             try
             {
                 if (File.Exists(FilePath))
                 {
                     string json = File.ReadAllText(FilePath);
-                    return JsonSerializer.Deserialize<List<PairedDevice>>(json) ?? new List<PairedDevice>();
+                    return JsonSerializer.Deserialize<List<PairedDevice>>(json) ?? [];
                 }
             }
             catch (Exception ex)
@@ -48,7 +42,7 @@ namespace FileShare.Storing
                 Console.WriteLine($"Failed to load paired devices: {ex.Message}");
             }
 
-            return new List<PairedDevice>();
+            return [];
         }
 
         private void SaveDevices()
@@ -56,11 +50,9 @@ namespace FileShare.Storing
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
-                string json = JsonSerializer.Serialize(_pairedDevices, new JsonSerializerOptions { WriteIndented = true });
-                using (StreamWriter writer = File.CreateText(FilePath))
-                {
-                    writer.Write(json);
-                }
+                string json = JsonSerializer.Serialize(_pairedDevices, jsonSerializerOptions);
+                using StreamWriter writer = File.CreateText(FilePath);
+                writer.Write(json);
             }
             catch (Exception ex)
             {
@@ -96,7 +88,7 @@ namespace FileShare.Storing
             }
         }
 
-        public IReadOnlyList<PairedDevice> GetAllPairedDevices()
+        public IReadOnlyList<PairedDevice> GetPairedDevices()
         {
             return _pairedDevices.AsReadOnly();
         }
