@@ -17,9 +17,8 @@ namespace File_Share
 {
     public sealed partial class MainWindow : WindowEx
     {
-        private readonly PairingServer _server;
+        private readonly FileShareServer _server;
         private readonly PairingService _service;
-        private readonly DeviceManager _deviceManager;
         private readonly List<PairedDevice> _pairedDevices = new();
 
         public MainWindow()
@@ -49,12 +48,11 @@ namespace File_Share
             double maxDimension = Math.Min(windowWidth, windowHeight) * 0.50;
             OverlayViewbox.MaxHeight = maxDimension * 1.2;
 
-            _deviceManager = new DeviceManager();
-            _server = new PairingServer(_deviceManager);
+            _server = new FileShareServer();
             _service = new PairingService(_server);
-            _deviceManager.DevicePaired += OnDevicePaired;
+            DeviceManager.DevicePaired += OnDevicePaired;
 
-            var pairedDevicesJson = _deviceManager.GetPairedDevices();
+            var pairedDevicesJson = DeviceManager.GetPairedDevices();
 
             foreach (var device in pairedDevicesJson)
             {
@@ -157,7 +155,7 @@ namespace File_Share
         {
             if (sender is FrameworkElement menuItem && menuItem.DataContext is PairedDevice device)
             {
-                _deviceManager.DeleteDevice(device);
+                DeviceManager.DeleteDevice(device);
                 _pairedDevices.Remove(device);
                 DeviceList.ItemsSource = null;
                 DeviceList.ItemsSource = _pairedDevices;

@@ -20,17 +20,15 @@ namespace FileShare.Networking
         public required string DeviceName { get; set; }
     }
 
-    public class PairingServer
+    public class FileShareServer
     {
         private readonly TcpListener _listener;
         private readonly CancellationTokenSource _cts = new();
-        private readonly DeviceManager _deviceManager;
         private readonly ServerInfoManager _serverInfoManager = new();
         public PairingInfo info { get; }
 
-        public PairingServer(DeviceManager deviceManager)
+        public FileShareServer()
         {
-            _deviceManager = deviceManager;
             string ip = GetLocalIpAddress();
             int port = _serverInfoManager.GetServerPort();
             if (port == 0 || !IsPortAvailable(port))
@@ -66,7 +64,7 @@ namespace FileShare.Networking
             try
             {
                 _listener.Start();
-                Debug.WriteLine($"Pairing server started on {info.Ip}:{info.Port}");
+                Debug.WriteLine($"Server started on {info.Ip}:{info.Port}");
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
@@ -78,7 +76,7 @@ namespace FileShare.Networking
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Pairing server error: {ex.Message}");
+                Debug.WriteLine($"Server error: {ex.Message}");
             }
         }
 
@@ -131,7 +129,7 @@ namespace FileShare.Networking
             }
 
             // Check if device is already paired
-            if (_deviceManager.IsDevicePaired(request.deviceId))
+            if (DeviceManager.IsDevicePaired(request.deviceId))
             {
                 await SendResponseAsync(writer, "failed", reason: "Device already paired");
                 Debug.WriteLine($"Pairing rejected: device already paired ({request.deviceId})");
@@ -141,7 +139,7 @@ namespace FileShare.Networking
             // Save device
             string remoteIp = ((IPEndPoint)client.Client.RemoteEndPoint!).Address.ToString();
             var pairedDevice = new PairedDevice(request.deviceId, request.deviceName, remoteIp);
-            _deviceManager.AddDevice(pairedDevice);
+            DeviceManager.AddDevice(pairedDevice);
 
             await SendResponseAsync(writer, "success", serverName: _serverInfoManager.GetServerName());
             Debug.WriteLine($"Device paired successfully: {request.deviceName} ({request.deviceId})");
@@ -154,8 +152,6 @@ namespace FileShare.Networking
             await writer.WriteLineAsync(jsonResponse);
         }
 
-
-
         private async Task HandleClientAsync(TcpClient client, CancellationToken cancellationToken)
         {
             using var stream = client.GetStream();
@@ -167,15 +163,17 @@ namespace FileShare.Networking
                 string mode = await reader.ReadLineAsync();
                 if (string.IsNullOrWhiteSpace(mode))
                 {
-                    Debug.WriteLine("Client sent no initial mode.");
+                    Debug.WriteLine("Server error: Client sent no initial mode");
                     return;
                 }
                 if (mode == "PAIR")
                 {
+                    Debug.WriteLine("PAIR request received");
                     await HandlePairingAsync(reader, writer, client);
                 }
                 else if (mode == "SHARE")
                 {
+                    Debug.WriteLine("SHARE request received");
                     var fileHandler = new FileSharingHandler();
                     await fileHandler.HandleClientAsync(reader, writer, stream, async filename =>
                     {

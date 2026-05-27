@@ -13,14 +13,14 @@ namespace FileShare.Storing
         public string DeviceIp { get; set; } = deviceIp;
     }
 
-    public class DeviceManager
+    public static class DeviceManager
     {
         private static readonly string FilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "FileShare", "paired_devices.json");
         private static readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
-        private List<PairedDevice> _pairedDevices;
-        public event Action<PairedDevice>? DevicePaired;
+        private static List<PairedDevice> _pairedDevices;
+        public static event Action<PairedDevice>? DevicePaired;
 
-        public DeviceManager()
+        static DeviceManager()
         {
             Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
             _pairedDevices = LoadDevices();
@@ -45,7 +45,7 @@ namespace FileShare.Storing
             return [];
         }
 
-        private void SaveDevices()
+        private static void SaveDevices()
         {
             try
             {
@@ -60,24 +60,24 @@ namespace FileShare.Storing
             }
         }
 
-        public bool IsDevicePaired(string deviceId)
+        public static bool IsDevicePaired(string deviceId)
         {
             return _pairedDevices.Exists(d => d.DeviceId == deviceId);
         }
 
-        public bool IsDevicePaired(PairedDevice device)
+        public static bool IsDevicePaired(PairedDevice device)
         {
             return _pairedDevices.Contains(device);
         }
 
-        public void AddDevice(PairedDevice device)
+        public static void AddDevice(PairedDevice device)
         {
             _pairedDevices.Add(device);
             DevicePaired?.Invoke(device);
             SaveDevices();
         }
 
-        public void DeleteDevice(PairedDevice device)
+        public static void DeleteDevice(PairedDevice device)
         {
             if (device != null)
             {
@@ -88,7 +88,7 @@ namespace FileShare.Storing
             }
         }
 
-        public IReadOnlyList<PairedDevice> GetPairedDevices()
+        public static IReadOnlyList<PairedDevice> GetPairedDevices()
         {
             return _pairedDevices.AsReadOnly();
         }

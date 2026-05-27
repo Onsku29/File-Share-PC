@@ -28,13 +28,13 @@
     <AppXManifest Include="D:\coding\File-Share-PC\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2026-05-26T22:45:45.049</Modified>
+      <Modified>2026-05-27T23:01:06.062</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="D:\coding\File-Share-PC\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2026-05-26T22:24:30.597</Modified>
+      <Modified>2026-05-27T22:34:44.401</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\coding\File-Share-PC\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\File Share.runtimeconfig.json">
       <PackagePath>File Share.runtimeconfig.json</PackagePath>
@@ -42,7 +42,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\coding\File-Share-PC\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\File Share.dll">
       <PackagePath>File Share.dll</PackagePath>
-      <Modified>2026-05-26T22:45:44.873</Modified>
+      <Modified>2026-05-27T23:01:05.870</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\coding\File-Share-PC\Assets\icon.ico">
       <PackagePath>Assets\icon.ico</PackagePath>
@@ -50,7 +50,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\coding\File-Share-PC\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\apphost.exe">
       <PackagePath>File Share.exe</PackagePath>
-      <Modified>2026-05-26T22:45:44.879</Modified>
+      <Modified>2026-05-27T23:01:05.876</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\coding\File-Share-PC\obj\x64\Debug\net8.0-windows10.0.19041.0\win-x64\MsixContent\CoreMessagingXP.dll">
       <PackagePath>CoreMessagingXP.dll</PackagePath>
@@ -1466,7 +1466,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\coding\File-Share-PC\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\File Share.deps.json">
       <PackagePath>File Share.deps.json</PackagePath>
-      <Modified>2026-05-26T22:24:29.737</Modified>
+      <Modified>2026-05-27T22:34:43.668</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Onni Ruohola\.nuget\packages\winuiex\2.5.1\lib\net6.0-windows10.0.19041\WinUIEx.pri">
       <PackagePath>WinUIEx.pri</PackagePath>

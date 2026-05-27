@@ -8,16 +8,16 @@ namespace FileShare.Scripts
 {
     public class PairingService
     {
-        private readonly PairingServer _pairingServer;
+        private readonly FileShareServer _pairingServer;
 
-        public PairingService(PairingServer pairingServer)
+        public PairingService(FileShareServer pairingServer)
         {
             _pairingServer = pairingServer;
         }
 
         public PairingInfo GetPairingInfo()
         {
-            return _pairingServer.Info;
+            return _pairingServer.info;
         }
 
         public Stream GenerateQrCodeStream()

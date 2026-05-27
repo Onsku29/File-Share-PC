@@ -4,7 +4,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace FileShare.Storing
+namespace FileShare.Networking
 {
     public class FileSharingHandler
     {
