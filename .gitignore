@@ -1,4 +1,3 @@
 .vs/*
-File Share/obj/*
-File Share/bin/*
-File Share/.vs/*
+obj/*
+bin/*
